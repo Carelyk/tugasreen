@@ -1,8 +1,9 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { siteConfig } from '@/config/site'
+import { Suspense } from 'react'
 
-export default async function AdminPage() {
+async function AdminContent() {
   const supabase = await createClient()
 
   const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -101,5 +102,13 @@ export default async function AdminPage() {
         </div>
       </main>
     </div>
+  )
+}
+
+export default function AdminPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center font-bold text-emerald-800">Memuat Panel Admin...</div>}>
+      <AdminContent />
+    </Suspense>
   )
 }

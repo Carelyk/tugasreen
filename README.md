@@ -1,66 +1,95 @@
-# TUGASREEN — Platform Jasa Layanan Tugas Akademik
+# TUGASREEN
 
-Website lengkap untuk jasa layanan tugas akademik **TUGASREEN** (*"Your Tasks, Your Way."*). Dibangun dengan **Next.js (App Router) + TypeScript + Tailwind CSS + Supabase**, dirancang anti-down di Vercel free tier dengan keep-alive cron dan manajemen storage otomatis.
+Platform pemesanan bantuan tugas terstruktur dengan alur brief, upload multi-file, pembuatan ZIP otomatis, budget, status pekerjaan, dan panel admin.
 
----
+## Fitur yang sudah tersedia
 
-## Fitur Utama
+- Landing page responsif dengan identitas visual TUGASREEN.
+- Registrasi dan login email/password melalui Supabase Auth.
+- Login Google dengan callback `/auth/callback`.
+- Form pesanan tiga langkah.
+- Upload 1–10 file dengan batas total 20 MB.
+- Validasi PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX, dan ZIP.
+- Penggabungan seluruh lampiran menjadi satu ZIP di server.
+- Penyimpanan paket ZIP privat di Supabase Storage.
+- Riwayat pesanan pengguna di `/orders`.
+- Panel admin di `/admin` dengan unduh ZIP, status, harga final, dan catatan progres.
+- Keep-alive database harian dan pembersihan file pesanan lama.
 
-1. **Sistem Pemesanan Canggih (Client-Driven Pricing)**:
-   - Form multi-step lengkap (layanan, mata kuliah, judul, deskripsi min 20 karakter, deadline, tingkat kesulitan).
-   - Upload file instruksi (PDF/DOCX/PPTX/XLSX/ZIP, max 20MB) dengan validasi client & server.
-   - Client memasukkan estimasi harga/budget sendiri atau meminta rekomendasi admin.
-2. **Flow Admin ACC / Nego / Tolak**:
-   - Panel admin terproteksi (`/admin`) untuk mengelola semua pesanan masuk.
-   - Admin dapat melakukan **ACC** (harga final), **Tolak** (dengan alasan), atau **Nego** (harga balik ke client).
-   - Perubahan status real-time (`Menunggu ACC` → `Diproses` → `Revisi` → `Selesai`).
-3. **Anti-Down untuk Free Tier (Wajib)**:
-   - **Keep-alive Supabase**: API route `/api/keep-alive` dipanggil otomatis oleh **Vercel Cron** (`vercel.json`) setiap hari jam 01.00 UTC agar Supabase tidak pernah pause karena inaktif.
-   - **Manajemen Storage Otomatis**: Endpoint `/api/cleanup-storage` untuk membersihkan file instruksi order lama (>30 hari) secara otomatis.
-4. **Keamanan & RLS**:
-   - Supabase Row Level Security (RLS) aktif untuk tabel `profiles`, `orders`, dan `order_events`.
-   - Konfigurasi environment variables terpusat di `src/config/site.ts` dan `.env.example`.
+## Menjalankan secara lokal
 
----
+Persyaratan: Node.js 20 atau versi yang kompatibel dengan Next.js 16.
 
-## Panduan Instalasi & Deploy Lengkap (Untuk Pemula)
-
-### 1. Setup Project Supabase Baru
-1. Buat project baru di [Supabase](https://supabase.com).
-2. Buka **SQL Editor** di dashboard Supabase Anda.
-3. Salin seluruh isi file `supabase_migration.sql` dari repository ini, lalu jalankan (*Run*). Ini akan membuat tabel `profiles`, `orders`, `order_events`, policy RLS, trigger auth otomatis, dan storage bucket `task-files`.
-
-### 2. Konfigurasi Environment Variables
-Buat file `.env.local` di root folder berdasarkan `.env.example`:
-```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-ADMIN_EMAILS=admin@tugasreen.com,owner@tugasreen.com
-CRON_SECRET=random-secure-cron-secret-token
-```
-
-### 3. Menjalankan di Lokal
 ```bash
 npm install
 npm run dev
 ```
-Buka `http://localhost:3000` di browser Anda.
 
-### 4. Deploy ke Vercel
-1. Hubungkan repository GitHub Anda ke Vercel.
-2. Masukkan semua Environment Variables dari langkah ke-2 ke Vercel Project Settings.
-3. Klik **Deploy**. Vercel akan otomatis mendeteksi `vercel.json` untuk mengaktifkan Vercel Cron keep-alive.
+Buka `http://localhost:3000`.
 
-### 5. Setup UptimeRobot (Monitoring Uptime Gratis)
-1. Buat akun gratis di [UptimeRobot](https://uptimerobot.com).
-2. Tambahkan **New Monitor** dengan tipe **HTTP(s)**.
-3. Masukkan URL production Vercel Anda (mis. `https://tugasreen.vercel.app`).
-4. Atur interval pemantauan 5 menit. Masukkan email admin untuk alert jika terjadi gangguan.
+## Environment variables
 
-### 6. Cara Ganti ke Custom Domain Nanti
-1. Beli domain Anda (mis. `tugasreen.com`).
-2. Masuk ke Vercel Dashboard → Project Settings → **Domains**, lalu tambahkan domain Anda dan ikuti instruksi DNS records.
-3. Update nilai `NEXT_PUBLIC_SITE_URL` di Environment Variables Vercel menjadi `https://tugasreen.com`.
-4. Di Supabase Dashboard → Authentication → **URL Configuration**, update Site URL dan Redirect URLs sesuai domain baru Anda.
+Buat `.env.local` di root proyek:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+ADMIN_EMAILS=admin@example.com
+CRON_SECRET=replace-with-a-long-random-secret
+```
+
+`SUPABASE_SERVICE_ROLE_KEY` dan `CRON_SECRET` hanya boleh disimpan sebagai secret server. Jangan menggunakan awalan `NEXT_PUBLIC_` untuk keduanya.
+
+## Menyiapkan Supabase
+
+### Proyek baru
+
+Jalankan seluruh isi `supabase_migration.sql` melalui Supabase SQL Editor.
+
+### Proyek lama TUGASREEN
+
+Jalankan `supabase_upgrade_v2.sql` sekali. Upgrade ini:
+
+- mengubah bucket `task-files` menjadi privat;
+- membatasi file berdasarkan folder pemilik;
+- memperbaiki policy profile, order, dan event;
+- mempertahankan akses penuh untuk role admin.
+
+Setelah akun admin mendaftar, tandai profilnya:
+
+```sql
+update public.profiles
+set role = 'admin'
+where email = 'admin@example.com';
+```
+
+Untuk Google login, aktifkan Google provider di Supabase Authentication dan tambahkan URL berikut ke Redirect URLs:
+
+```text
+http://localhost:3000/auth/callback
+https://domain-produksi-anda/auth/callback
+```
+
+## Verifikasi
+
+```bash
+npm run lint
+npm run build
+```
+
+Build menggunakan Webpack karena kombinasi Next.js 16 dan loader Tailwind Turbopack pada konfigurasi ini dapat mengalami panic saat build produksi di Windows. Dev server tetap menggunakan Turbopack.
+
+## Deploy Vercel
+
+1. Push branch yang sudah diverifikasi ke GitHub.
+2. Import repository ke Vercel.
+3. Tambahkan seluruh environment variables.
+4. Ubah `NEXT_PUBLIC_SITE_URL` menjadi URL produksi.
+5. Tambahkan URL produksi ke Supabase Authentication Redirect URLs.
+6. Deploy. Jadwal di `vercel.json` akan mengaktifkan keep-alive dan cleanup mingguan.
+
+## Catatan Google Drive
+
+Struktur file sudah disiapkan sebagai satu ZIP per pesanan, sehingga integrasi Google Drive dapat ditambahkan sebagai tahap berikutnya. Integrasi tersebut belum diaktifkan karena membutuhkan keputusan akun tujuan dan kredensial OAuth/Service Account.

@@ -1,13 +1,15 @@
 export const siteConfig = {
   name: "TUGASREEN",
-  tagline: "Your Tasks, Your Way.",
-  description: "A modern platform for academic task services with client-driven pricing, real-time tracking, and professional support.",
+  tagline: "Brief rapi. Pengerjaan terarah.",
+  description: "Satu ruang untuk mengirim brief, merapikan file, menyepakati budget, dan memantau progres pengerjaan.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://tugasreen.vercel.app",
   adminEmails: (process.env.ADMIN_EMAILS || "admin@tugasreen.com,owner@tugasreen.com").split(",").map(e => e.trim()),
   whatsappNumber: "+6281234567890", // Placeholder, ganti sesuai nomor WA admin
   whatsappDisplay: "0812-3456-7890",
   emailAdmin: "support@tugasreen.com",
   storageMaxFileSizeMB: 20,
+  maxFilesPerOrder: 10,
+  allowedFileExtensions: ["pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "zip"],
   allowedFileTypes: [
     "application/pdf",
     "application/msword",
@@ -54,7 +56,7 @@ export const servicesList = [
   {
     id: "programming",
     title: "Programming",
-    description: "Pembuatan tugas coding web, mobile, backend, struktur data, dan debugging script.',",
+    description: "Pendampingan tugas coding web, mobile, backend, struktur data, dan debugging script.",
     icon: "Code",
     badge: "Teknis",
   },

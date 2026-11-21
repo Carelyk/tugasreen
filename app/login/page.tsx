@@ -1,125 +1,119 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
-import { siteConfig } from '@/config/site'
-import { createClient } from '@/utils/supabase/client'
+import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { ArrowLeft, Check, LoaderCircle, LockKeyhole, Mail } from 'lucide-react'
+import { createClient } from '@/utils/supabase/client'
+
+function messageFrom(error: unknown) {
+  return error instanceof Error ? error.message : 'Autentikasi belum berhasil.'
+}
 
 export default function LoginPage() {
+  const supabase = useMemo(() => createClient(), [])
+  const router = useRouter()
+  const [mode, setMode] = useState<'login' | 'signup'>('login')
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [errorMsg, setErrorMsg] = useState('')
-  const router = useRouter()
-  const supabase = createClient()
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
+  function destination() {
+    const requested = new URLSearchParams(window.location.search).get('next') || '/orders'
+    return requested.startsWith('/') && !requested.startsWith('//') ? requested : '/orders'
+  }
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
     setLoading(true)
-    setErrorMsg('')
+    setError('')
+    setMessage('')
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    try {
+      if (mode === 'signup') {
+        if (name.trim().length < 2) throw new Error('Nama minimal 2 karakter.')
+        const { data, error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: name.trim() },
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
+          },
+        })
+        if (signUpError) throw signUpError
+        if (!data.session) {
+          setMessage('Akun dibuat. Periksa email Anda untuk mengonfirmasi akun, lalu masuk.')
+          setMode('login')
+          setLoading(false)
+          return
+        }
+      } else {
+        const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
+        if (loginError) throw loginError
+      }
 
-    if (error) {
-      setErrorMsg(error.message)
+      router.push(destination())
+      router.refresh()
+    } catch (authError) {
+      setError(messageFrom(authError))
       setLoading(false)
-      return
-    }
-
-    // check if user is admin
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', data.user.id)
-      .single()
-
-    if (profile?.role === 'admin' || siteConfig.adminEmails.includes(email)) {
-      router.push('/admin')
-    } else {
-      router.push('/')
     }
   }
 
-  const handleGoogleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
+  async function handleGoogleLogin() {
+    setLoading(true)
+    setError('')
+    const callbackUrl = new URL('/auth/callback', window.location.origin)
+    callbackUrl.searchParams.set('next', destination())
+    const { error: oauthError } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
+      options: { redirectTo: callbackUrl.toString() },
     })
+    if (oauthError) {
+      setError(oauthError.message)
+      setLoading(false)
+    }
   }
 
   return (
-    <div className="min-h-screen bg-emerald-50/60 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-3xl shadow-xl border border-emerald-100 p-8 text-center">
-        <div className="w-16 h-16 rounded-2xl bg-emerald-700 text-white font-bold text-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-700/20">
-          TR
-        </div>
-        <h1 className="text-2xl font-black text-emerald-950 mb-2">Masuk ke {siteConfig.name}</h1>
-        <p className="text-slate-600 text-sm mb-6">Kelola pesanan tugas akademik Anda dengan mudah dan aman.</p>
+    <main className="min-h-screen bg-[#f3f6f1] p-4 text-[#17382d] sm:p-8">
+      <div className="mx-auto mb-6 max-w-6xl"><Link href="/" className="inline-flex items-center gap-2 text-sm font-extrabold text-[#0b6b4f]"><ArrowLeft className="size-4" /> Kembali ke beranda</Link></div>
+      <div className="mx-auto grid min-h-[720px] max-w-6xl overflow-hidden rounded-[2rem] border border-emerald-950/10 bg-white shadow-2xl shadow-emerald-950/10 lg:grid-cols-2">
+        <section className="hidden bg-[#073f31] p-12 text-white lg:flex lg:flex-col lg:justify-between">
+          <div><div className="flex items-center gap-3"><span className="grid size-12 place-items-center rounded-2xl bg-[#c9f24b] text-sm font-black text-[#073f31]">TR</span><span className="text-xl font-black">TUGASREEN</span></div><h1 className="balance mt-14 text-5xl font-black leading-tight tracking-[-0.055em]">Simpan brief dan file di tempat yang sama.</h1><p className="mt-6 max-w-md text-lg leading-8 text-emerald-100/70">Akun digunakan untuk melindungi paket file dan menampilkan progres pesanan Anda.</p></div>
+          <div className="space-y-3">{['Riwayat pesanan tersimpan', 'Paket ZIP hanya untuk akses terotorisasi', 'Status pekerjaan dapat dipantau'].map((item) => <div key={item} className="flex items-center gap-3 text-sm font-bold text-emerald-50/85"><span className="grid size-7 place-items-center rounded-full bg-white/10"><Check className="size-4 text-[#c9f24b]" /></span>{item}</div>)}</div>
+        </section>
 
-        {errorMsg && (
-          <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold">
-            {errorMsg}
+        <section className="flex items-center p-6 sm:p-12">
+          <div className="mx-auto w-full max-w-md">
+            <div className="mb-8 flex rounded-2xl bg-[#f1f6ef] p-1.5">
+              <button type="button" onClick={() => { setMode('login'); setError('') }} className={`flex-1 rounded-xl px-4 py-3 text-sm font-extrabold transition ${mode === 'login' ? 'bg-white text-[#073f31] shadow-sm' : 'text-[#6a7b72]'}`}>Masuk</button>
+              <button type="button" onClick={() => { setMode('signup'); setError('') }} className={`flex-1 rounded-xl px-4 py-3 text-sm font-extrabold transition ${mode === 'signup' ? 'bg-white text-[#073f31] shadow-sm' : 'text-[#6a7b72]'}`}>Buat akun</button>
+            </div>
+
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-[#0b6b4f]">{mode === 'login' ? 'Selamat datang kembali' : 'Akun baru'}</p>
+            <h2 className="mt-2 text-4xl font-black tracking-[-0.05em]">{mode === 'login' ? 'Masuk ke ruang pesanan.' : 'Mulai dengan identitas Anda.'}</h2>
+            <p className="mt-4 leading-7 text-[#63766c]">{mode === 'login' ? 'Gunakan email yang terdaftar untuk melihat dan membuat pesanan.' : 'Akun Anda akan terhubung dengan setiap brief dan file yang dikirim.'}</p>
+
+            {error && <div role="alert" className="mt-6 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm font-bold text-rose-700">{error}</div>}
+            {message && <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-bold text-emerald-800">{message}</div>}
+
+            <form onSubmit={handleSubmit} className="mt-7 space-y-4">
+              {mode === 'signup' && <div><label htmlFor="name" className="mb-2 block text-sm font-extrabold">Nama lengkap</label><input id="name" required value={name} onChange={(event) => setName(event.target.value)} className="w-full rounded-2xl border border-emerald-950/15 px-4 py-3.5 text-base focus:border-[#0b6b4f] focus:ring-4 focus:ring-emerald-700/10" placeholder="Nama Anda" /></div>}
+              <div><label htmlFor="email" className="mb-2 block text-sm font-extrabold">Email</label><div className="relative"><Mail className="absolute left-4 top-4 size-5 text-[#849189]" /><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} className="w-full rounded-2xl border border-emerald-950/15 py-3.5 pl-12 pr-4 text-base focus:border-[#0b6b4f] focus:ring-4 focus:ring-emerald-700/10" placeholder="nama@email.com" /></div></div>
+              <div><label htmlFor="password" className="mb-2 block text-sm font-extrabold">Password</label><div className="relative"><LockKeyhole className="absolute left-4 top-4 size-5 text-[#849189]" /><input id="password" type="password" required minLength={6} value={password} onChange={(event) => setPassword(event.target.value)} className="w-full rounded-2xl border border-emerald-950/15 py-3.5 pl-12 pr-4 text-base focus:border-[#0b6b4f] focus:ring-4 focus:ring-emerald-700/10" placeholder="Minimal 6 karakter" /></div></div>
+              <button disabled={loading} className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0b6b4f] px-5 py-4 font-extrabold text-white transition hover:bg-[#095c45] disabled:cursor-wait disabled:opacity-60">{loading && <LoaderCircle className="size-4 animate-spin" />}{mode === 'login' ? 'Masuk ke akun' : 'Buat akun'}</button>
+            </form>
+
+            <div className="my-6 flex items-center gap-3"><span className="h-px flex-1 bg-emerald-950/10" /><span className="text-xs font-bold uppercase tracking-wider text-[#8a978f]">atau</span><span className="h-px flex-1 bg-emerald-950/10" /></div>
+            <button type="button" disabled={loading} onClick={handleGoogleLogin} className="flex w-full items-center justify-center gap-3 rounded-2xl border border-emerald-950/15 bg-white px-5 py-4 font-extrabold transition hover:bg-[#f6f8f3] disabled:opacity-60"><span className="grid size-6 place-items-center rounded-full bg-white text-sm font-black text-[#4285f4] shadow-sm">G</span>Lanjutkan dengan Google</button>
+            <p className="mt-7 text-center text-sm text-[#7a8981]">Admin dapat masuk dengan akun yang sudah ditandai sebagai admin di Supabase.</p>
           </div>
-        )}
-
-        <form onSubmit={handleLogin} className="space-y-4 text-left mb-4">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Email</label>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="nama@email.com"
-              className="w-full px-4 py-3 rounded-xl border border-emerald-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Password</label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-xl border border-emerald-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm shadow-md transition disabled:opacity-50"
-          >
-            {loading ? 'Memproses...' : 'Masuk dengan Email'}
-          </button>
-        </form>
-
-        <div className="relative my-6">
-          <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-200"></div></div>
-          <div className="relative flex justify-center text-xs uppercase"><span className="bg-white px-2 text-slate-400 font-bold">Atau</span></div>
-        </div>
-
-        <button onClick={handleGoogleLogin} className="w-full py-3.5 px-4 rounded-xl border border-emerald-200 bg-white hover:bg-emerald-50 font-bold text-slate-700 text-sm transition flex items-center justify-center gap-3 shadow-xs">
-          <svg className="w-5 h-5" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
-            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.19v3.15C3.17 21.37 7.27 24 12 24z"/>
-            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.19C.43 8.1 0 9.8 0 12s.43 3.9 1.19 5.42l4.09-3.15z"/>
-            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.27 0 3.17 2.63 1.19 6.58l4.09 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-          </svg>
-          Masuk dengan Google
-        </button>
-
-        <div className="mt-8 pt-6 border-t border-emerald-100 flex items-center justify-between text-xs font-semibold text-slate-500">
-          <Link href="/" className="hover:text-emerald-700 transition">← Kembali ke Beranda</Link>
-          <Link href="/admin" className="hover:text-emerald-700 transition">Portal Admin →</Link>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   )
 }

@@ -1,26 +1,66 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f6f8f3;
+  --foreground: #10231b;
+  --surface: #ffffff;
+  --ink-muted: #5c6f66;
+  --brand: #0b6b4f;
+  --brand-dark: #073f31;
+  --accent: #c9f24b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Segoe UI", Arial, Helvetica, sans-serif;
+  --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  min-width: 320px;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  outline-color: var(--brand);
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--brand-dark);
+}
+
+.noise-grid {
+  background-image:
+    linear-gradient(rgba(11, 107, 79, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 107, 79, 0.055) 1px, transparent 1px);
+  background-size: 38px 38px;
+}
+
+.soft-shadow {
+  box-shadow: 0 24px 70px rgba(7, 63, 49, 0.12);
+}
+
+.balance {
+  text-wrap: balance;
 }

@@ -7,11 +7,9 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const secret = searchParams.get('secret')
 
-  if (secret !== process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    // allow local development trigger without strict secret if unset
-    if (process.env.NODE_ENV === 'production' && process.env.CRON_SECRET) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+  const cronSecret = process.env.CRON_SECRET
+  if (process.env.NODE_ENV === 'production' && (!cronSecret || (secret !== cronSecret && authHeader !== `Bearer ${cronSecret}`))) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
@@ -40,10 +38,9 @@ export async function GET(request: Request) {
     if (oldOrders && oldOrders.length > 0) {
       for (const order of oldOrders) {
         if (order.file_urls && order.file_urls.length > 0) {
-          const filePaths = order.file_urls.map((url: string) => {
-            const parts = url.split('/task-files/')
-            return parts[1] || ''
-          }).filter(Boolean)
+          const filePaths = order.file_urls
+            .map((value: string) => value.includes('/task-files/') ? value.split('/task-files/')[1] : value)
+            .filter(Boolean)
 
           if (filePaths.length > 0) {
             await supabase.storage.from('task-files').remove(filePaths)
@@ -59,7 +56,8 @@ export async function GET(request: Request) {
       deleted_files_count: deletedFilesCount,
       timestamp: new Date().toISOString()
     })
-  } catch (err: any) {
-    return NextResponse.json({ status: 'error', message: err.message }, { status: 500 })
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    return NextResponse.json({ status: 'error', message }, { status: 500 })
   }
 }

@@ -6,6 +6,7 @@ import { siteConfig } from '@/config/site'
 import { createAdminClient } from '@/utils/supabase/admin'
 import { createClient } from '@/utils/supabase/server'
 import { OrderActions } from './order-actions'
+import { PreferencesControls } from '@/components/preferences'
 
 export const metadata = { title: 'Panel admin' }
 
@@ -47,7 +48,7 @@ async function AdminContent() {
     <main className="min-h-screen bg-[#f3f6f1] px-4 py-6 text-[#17382d] sm:px-6 sm:py-10">
       <div className="mx-auto max-w-7xl">
         <header className="rounded-[2rem] bg-[#073f31] p-6 text-white sm:p-9">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between"><div><div className="flex items-center gap-2 text-sm font-bold text-[#c9f24b]"><LayoutDashboard className="size-4" /> Ruang kerja admin</div><h1 className="mt-3 text-4xl font-black tracking-[-0.05em]">Kelola pesanan</h1><p className="mt-3 text-emerald-100/65">Masuk sebagai {user.email}</p></div><Link href="/" className="rounded-xl border border-white/15 px-4 py-3 text-center text-sm font-extrabold hover:bg-white/10">Lihat website</Link></div>
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between"><div><div className="flex items-center gap-2 text-sm font-bold text-[#c9f24b]"><LayoutDashboard className="size-4" /> Ruang kerja admin</div><h1 className="mt-3 text-4xl font-black tracking-[-0.05em]">Kelola pesanan</h1><p className="mt-3 text-emerald-100/65">Masuk sebagai {user.email}</p></div><div className="flex flex-wrap items-center gap-3"><PreferencesControls /><Link href="/" className="rounded-xl border border-white/15 px-4 py-3 text-center text-sm font-extrabold hover:bg-white/10">Lihat website</Link></div></div>
           <div className="mt-8 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-white/10 p-5"><p className="text-sm font-semibold text-emerald-100/60">Total pesanan</p><p className="mt-2 text-3xl font-black">{orders.length}</p></div><div className="rounded-2xl bg-[#c9f24b] p-5 text-[#073f31]"><p className="text-sm font-semibold">Menunggu review</p><p className="mt-2 text-3xl font-black">{pendingCount}</p></div><div className="rounded-2xl bg-white/10 p-5"><p className="text-sm font-semibold text-emerald-100/60">Sedang berjalan</p><p className="mt-2 text-3xl font-black">{activeCount}</p></div></div>
         </header>
 

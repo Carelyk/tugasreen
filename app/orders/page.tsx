@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { CalendarClock, Download, FileArchive, Plus, WalletCards } from 'lucide-react'
 import { createClient } from '@/utils/supabase/server'
+import { PreferencesControls } from '@/components/preferences'
 
 export const metadata = { title: 'Pesanan saya' }
 
@@ -47,7 +48,7 @@ async function OrdersContent() {
       <div className="mx-auto max-w-6xl">
         <header className="flex flex-col gap-6 rounded-[2rem] bg-[#073f31] p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-9">
           <div><Link href="/" className="text-sm font-bold text-emerald-200">TUGASREEN</Link><h1 className="mt-3 text-4xl font-black tracking-[-0.05em]">Pesanan saya</h1><p className="mt-3 text-emerald-100/70">Masuk sebagai {user.email}</p></div>
-          <Link href="/order/new" className="flex items-center justify-center gap-2 rounded-2xl bg-[#c9f24b] px-5 py-4 font-extrabold text-[#073f31]"><Plus className="size-5" /> Buat pesanan</Link>
+          <div className="flex flex-wrap items-center gap-3"><PreferencesControls /><Link href="/order/new" className="flex items-center justify-center gap-2 rounded-2xl bg-[#c9f24b] px-5 py-4 font-extrabold text-[#073f31]"><Plus className="size-5" /> Buat pesanan</Link></div>
         </header>
 
         {error && <div className="mt-6 rounded-2xl border border-rose-200 bg-rose-50 p-4 font-bold text-rose-700">Pesanan belum dapat dimuat: {error.message}</div>}

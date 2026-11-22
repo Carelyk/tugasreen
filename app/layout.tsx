@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { PreferencesProvider } from "@/components/preferences";
+import '@fontsource-variable/inter';
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,8 +14,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="id" className="h-full antialiased">
-      <body className="min-h-full">{children}</body>
+    <html lang="id" className="h-full antialiased" suppressHydrationWarning>
+      <body className="min-h-full"><PreferencesProvider initialLanguage="id">{children}</PreferencesProvider></body>
     </html>
   );
 }

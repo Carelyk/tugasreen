@@ -19,6 +19,7 @@ import {
   WalletCards,
 } from 'lucide-react'
 import { faqsList, servicesList, siteConfig } from '@/config/site'
+import { PreferencesControls } from '@/components/preferences'
 
 const serviceIcons = {
   'tugas-individu': FileText,
@@ -51,7 +52,7 @@ export default function Home() {
   return (
     <main className="overflow-hidden bg-[#f6f8f3] text-[#10231b]">
       <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl border border-emerald-950/10 bg-white/90 px-4 shadow-sm backdrop-blur-xl sm:px-6">
+        <div className="mx-auto flex min-h-16 max-w-7xl flex-wrap items-center justify-between gap-x-3 gap-y-2 rounded-2xl border border-emerald-950/10 bg-white/90 px-4 py-2 shadow-sm backdrop-blur-xl sm:flex-nowrap sm:px-6">
           <Link href="/" className="flex items-center gap-3" aria-label="TUGASREEN beranda">
             <span className="grid size-10 place-items-center rounded-xl bg-[#073f31] text-sm font-black text-white">TR</span>
             <span>
@@ -67,19 +68,20 @@ export default function Home() {
             <a className="transition hover:text-[#0b6b4f]" href="#faq">FAQ</a>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex w-full flex-wrap items-center justify-between gap-2 sm:w-auto sm:justify-end">
+            <PreferencesControls />
             <Link href="/login" className="hidden rounded-xl px-4 py-2.5 text-sm font-bold text-[#0b6b4f] transition hover:bg-emerald-50 sm:block">Masuk</Link>
-            <Link href="/order/new" className="rounded-xl bg-[#073f31] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#0b6b4f]">Buat pesanan</Link>
+            <Link href="/order/new" className="rounded-xl bg-[#073f31] px-4 py-2.5 text-center text-sm font-bold text-white transition hover:bg-[#0b6b4f]">Buat pesanan</Link>
           </div>
         </div>
       </header>
 
-      <section className="noise-grid relative px-4 pb-20 pt-32 sm:px-6 sm:pb-28 sm:pt-40">
+      <section className="noise-grid relative px-4 pb-20 pt-48 sm:px-6 sm:pb-28 sm:pt-40">
         <div className="absolute left-[10%] top-24 size-72 rounded-full bg-[#c9f24b]/20 blur-3xl" />
         <div className="relative mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.03fr_0.97fr]">
           <div>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#0b6b4f]/15 bg-white px-4 py-2 text-sm font-bold text-[#0b6b4f] shadow-sm"><Sparkles className="size-4" />Semua kebutuhan tugas dalam satu alur</div>
-            <h1 className="balance max-w-3xl text-5xl font-black leading-[0.98] tracking-[-0.065em] text-[#073f31] sm:text-6xl lg:text-[5.2rem]">Brief lebih rapi. Kerja jadi lebih pasti.</h1>
+            <h1 className="balance max-w-3xl text-[clamp(2.65rem,8vw,5.2rem)] font-black leading-[1.04] tracking-[-0.055em] text-[#073f31]">Brief lebih rapi. Kerja jadi lebih pasti.</h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-[#53675d] sm:text-xl">{siteConfig.description} Tidak ada lagi file tercecer dan detail penting yang tenggelam di chat.</p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Link href="/order/new" className="rounded-2xl bg-[#0b6b4f] px-6 py-4 text-center text-base font-extrabold text-white shadow-lg shadow-emerald-900/15 transition hover:-translate-y-0.5 hover:bg-[#095c45]">Mulai susun brief</Link>

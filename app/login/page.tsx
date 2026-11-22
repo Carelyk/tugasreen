@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Check, LoaderCircle, LockKeyhole, Mail } from 'lucide-react'
 import { createClient } from '@/utils/supabase/client'
+import { PreferencesControls } from '@/components/preferences'
 
 function messageFrom(error: unknown) {
   return error instanceof Error ? error.message : 'Autentikasi belum berhasil.'
@@ -80,7 +81,7 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen bg-[#f3f6f1] p-4 text-[#17382d] sm:p-8">
-      <div className="mx-auto mb-6 max-w-6xl"><Link href="/" className="inline-flex items-center gap-2 text-sm font-extrabold text-[#0b6b4f]"><ArrowLeft className="size-4" /> Kembali ke beranda</Link></div>
+      <div className="mx-auto mb-6 flex max-w-6xl flex-wrap items-center justify-between gap-3"><Link href="/" className="inline-flex items-center gap-2 text-sm font-extrabold text-[#0b6b4f]"><ArrowLeft className="size-4" /> Kembali ke beranda</Link><PreferencesControls /></div>
       <div className="mx-auto grid min-h-[720px] max-w-6xl overflow-hidden rounded-[2rem] border border-emerald-950/10 bg-white shadow-2xl shadow-emerald-950/10 lg:grid-cols-2">
         <section className="hidden bg-[#073f31] p-12 text-white lg:flex lg:flex-col lg:justify-between">
           <div><div className="flex items-center gap-3"><span className="grid size-12 place-items-center rounded-2xl bg-[#c9f24b] text-sm font-black text-[#073f31]">TR</span><span className="text-xl font-black">TUGASREEN</span></div><h1 className="balance mt-14 text-5xl font-black leading-tight tracking-[-0.055em]">Simpan brief dan file di tempat yang sama.</h1><p className="mt-6 max-w-md text-lg leading-8 text-emerald-100/70">Akun digunakan untuk melindungi paket file dan menampilkan progres pesanan Anda.</p></div>

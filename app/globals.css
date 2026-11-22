@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --background: #f6f8f3;
@@ -10,10 +11,27 @@
   --accent: #c9f24b;
 }
 
+.dark {
+  --background: #071d17;
+  --foreground: #e8f5ec;
+  --surface: #102a20;
+  --ink-muted: #abc7b7;
+  --brand: #34b487;
+  --brand-dark: #05261d;
+  --accent: #a8e861;
+  color-scheme: dark;
+}
+
+.dark [class*="bg-[#f6f8f3]"], .dark [class*="bg-[#f3f6f1]"], .dark [class*="bg-[#f8faf6]"] { background-color: var(--background); }
+.dark [class*="bg-white"], .dark [class*="bg-[#f1f6ef]"], .dark [class*="bg-[#f2f6f1]"] { background-color: var(--surface); }
+.dark [class*="text-[#10231b]"], .dark [class*="text-[#17382d]"]:not([class*="bg-[#c9f24b]"]), .dark [class*="text-[#073f31]"]:not([class*="bg-[#c9f24b]"]) { color: var(--foreground); }
+.dark [class*="text-[#5c6f66]"], .dark [class*="text-[#53675d]"], .dark [class*="text-[#60736a]"], .dark [class*="text-[#61746a]"], .dark [class*="text-[#63766c]"] { color: var(--ink-muted); }
+.dark input, .dark textarea, .dark select { background-color: var(--surface); color: var(--foreground); border-color: #3c6551; }
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Segoe UI", Arial, Helvetica, sans-serif;
+  --font-sans: "Inter Variable", "Segoe UI", Arial, Helvetica, sans-serif;
   --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
 }
 
@@ -28,9 +46,22 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  font-family: "Inter Variable", "Segoe UI", Arial, Helvetica, sans-serif;
   min-width: 320px;
+  font-optical-sizing: auto;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
 }
+
+h1, h2, h3 {
+  text-wrap: balance;
+  line-height: 1.12;
+}
+
+.font-black { font-weight: 800; }
+
+button, a { touch-action: manipulation; }
 
 button,
 a,

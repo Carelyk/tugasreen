@@ -16,6 +16,7 @@ import {
   UploadCloud,
 } from 'lucide-react'
 import { servicesList, siteConfig } from '@/config/site'
+import { PreferencesControls } from '@/components/preferences'
 
 type FormState = {
   jenisLayanan: string
@@ -155,9 +156,9 @@ export default function NewOrderPage() {
   return (
     <main className="min-h-screen bg-[#f3f6f1] px-4 py-6 text-[#17382d] sm:px-6 sm:py-10">
       <div className="mx-auto max-w-6xl">
-        <header className="mb-8 flex items-center justify-between">
+        <header className="mb-8 flex flex-wrap items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-2 text-sm font-extrabold text-[#0b6b4f]"><ArrowLeft className="size-4" /> Kembali ke beranda</Link>
-          <Link href="/orders" className="text-sm font-bold text-[#60736a] hover:text-[#0b6b4f]">Pesanan saya</Link>
+          <div className="flex flex-wrap items-center gap-3"><PreferencesControls /><Link href="/orders" className="text-sm font-bold text-[#60736a] hover:text-[#0b6b4f]">Pesanan saya</Link></div>
         </header>
 
         <div className="grid overflow-hidden rounded-[2rem] border border-emerald-950/10 bg-white shadow-2xl shadow-emerald-950/10 lg:grid-cols-[0.72fr_1.28fr]">

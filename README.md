@@ -79,7 +79,7 @@ npm run lint
 npm run build
 ```
 
-Build menggunakan Webpack karena kombinasi Next.js 16 dan loader Tailwind Turbopack pada konfigurasi ini dapat mengalami panic saat build produksi di Windows. Dev server tetap menggunakan Turbopack.
+Tailwind CSS diproses melalui PostCSS pada dev dan build produksi. Build menggunakan Webpack untuk menghindari panic Turbopack yang pernah terjadi di Windows.
 
 ## Deploy Vercel
 

@@ -161,12 +161,12 @@ export default function NewOrderPage() {
         </header>
 
         <div className="grid overflow-hidden rounded-[2rem] border border-emerald-950/10 bg-white shadow-2xl shadow-emerald-950/10 lg:grid-cols-[0.72fr_1.28fr]">
-          <aside className="bg-[#073f31] p-7 text-white sm:p-10">
+          <aside className="bg-[#073f31] p-6 text-white sm:p-10">
             <span className="inline-flex rounded-full bg-[#c9f24b] px-3 py-1.5 text-xs font-black uppercase tracking-wider text-[#073f31]">Brief pesanan</span>
-            <h1 className="balance mt-6 text-4xl font-black tracking-[-0.05em]">Satu form untuk semua detail penting.</h1>
-            <p className="mt-5 leading-7 text-emerald-100/70">Isi bertahap. Anda masih bisa kembali ke langkah sebelumnya sebelum pesanan dikirim.</p>
+            <h1 className="balance mt-4 text-2xl font-black tracking-[-0.05em] sm:text-4xl lg:mt-6">Satu form untuk semua detail penting.</h1>
+            <p className="mt-5 hidden leading-7 text-emerald-100/70 lg:block">Isi bertahap. Anda masih bisa kembali ke langkah sebelumnya sebelum pesanan dikirim.</p>
 
-            <div className="mt-10 space-y-3">
+            <div className="mt-10 hidden space-y-3 lg:block">
               {['Kebutuhan', 'Deadline & budget', 'File & konfirmasi'].map((label, index) => {
                 const number = index + 1
                 const active = step === number
@@ -180,7 +180,7 @@ export default function NewOrderPage() {
               })}
             </div>
 
-            <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.06] p-5">
+            <div className="mt-10 hidden rounded-2xl border border-white/10 bg-white/[0.06] p-5 lg:block">
               <LockKeyhole className="size-5 text-[#c9f24b]" />
               <p className="mt-3 font-extrabold">Paket file privat</p>
               <p className="mt-2 text-sm leading-6 text-emerald-100/65">Lampiran digabung menjadi ZIP dan hanya tersedia melalui akses terotorisasi.</p>

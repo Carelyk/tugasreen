@@ -93,3 +93,13 @@
 - Browser assertions passed for `0 karakter`, `8 karakter`, `8 characters`, and `14 characters` after successive text and language changes.
 - Committed the fix as `3c9eea9` with message `fix: keep character counter reactive` and pushed it to `origin/main`.
 - Confirmed the production `/order/new` route returned HTTP 200 and included the new `data-no-translate` counter marker after Vercel deployed the commit.
+
+## 2026-11-26: Favicon replacement
+
+- Created a favicon-ready version of the supplied tuGasREEN logo with ImageGen.
+- Preserved the original symbol and brand colors while removing the large white outer margin and making the outside area transparent.
+- Added `app/icon.png` at 64 × 64 px for browser tabs and bookmarks.
+- Added `app/apple-icon.png` at 180 × 180 px for Apple touch surfaces.
+- Removed the old `app/favicon.ico` so it can no longer override the new App Router icon metadata.
+- Removed the manual metadata icon URLs from `app/layout.tsx` and delegated icon tags to the Next.js 16 file convention.
+- Optimized the final PNG files from 846 KB each to approximately 3 KB and 10 KB without changing the design.

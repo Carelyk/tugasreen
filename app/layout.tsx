@@ -10,10 +10,6 @@ export const metadata: Metadata = {
   },
   description:
     "Platform pemesanan bantuan tugas terstruktur dengan brief, file, budget, dan progres dalam satu alur.",
-  icons: {
-    icon: "/tugasreen-logo.jpg",
-    apple: "/tugasreen-logo.jpg",
-  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -11,6 +11,8 @@ tuGasREEN should feel structured, dependable, modern, and approachable. The visu
 - Keep the mark square with rounded corners and a subtle border on light surfaces.
 - Minimum digital size: 32 × 32 px.
 - Pair the mark with the display name `tuGasREEN` using the exact capitalization.
+- Browser favicon: `app/icon.png`, 64 × 64 px with transparent outer padding.
+- Apple touch icon: `app/apple-icon.png`, 180 × 180 px with transparent outer padding.
 
 ## Color palette
 

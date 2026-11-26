@@ -91,3 +91,5 @@
 - Kept the numeric value driven by `form.deskripsi.length`, allowing it to update immediately on every textarea change.
 - Verified the fix in Edge headless through the Chrome DevTools Protocol with real `input` events.
 - Browser assertions passed for `0 karakter`, `8 karakter`, `8 characters`, and `14 characters` after successive text and language changes.
+- Committed the fix as `3c9eea9` with message `fix: keep character counter reactive` and pushed it to `origin/main`.
+- Confirmed the production `/order/new` route returned HTTP 200 and included the new `data-no-translate` counter marker after Vercel deployed the commit.

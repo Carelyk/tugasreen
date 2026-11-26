@@ -103,3 +103,5 @@
 - Removed the old `app/favicon.ico` so it can no longer override the new App Router icon metadata.
 - Removed the manual metadata icon URLs from `app/layout.tsx` and delegated icon tags to the Next.js 16 file convention.
 - Optimized the final PNG files from 846 KB each to approximately 3 KB and 10 KB without changing the design.
+- Committed the favicon replacement as `3cb8d1b` and pushed it to `origin/main`.
+- Confirmed the production home page returned HTTP 200 with the new `/icon.png` and `/apple-icon.png` routes, and no longer referenced the old JPG icon metadata.

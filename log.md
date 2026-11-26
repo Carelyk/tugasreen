@@ -81,3 +81,13 @@
 - Confirmed `https://tugasreen.vercel.app` returned HTTP 200 after Vercel updated the production deployment.
 - Confirmed the live HTML contains the new `tuGasREEN | Brief rapi` title and `tugasreen-logo.jpg` asset.
 - Confirmed the previous uppercase title containing an em dash is no longer served in production.
+
+## 2026-11-26: Reactive character counter fix
+
+- Reproduced the description counter remaining at `0 characters` while the textarea contained text.
+- Traced the issue to the global translation `MutationObserver`, which restored the counter text node to its initially recorded value after every React update.
+- Excluded the live counter from DOM text mutation with `data-no-translate`.
+- Connected the counter directly to the active preference language so it renders `karakter` in Indonesian and `characters` in English.
+- Kept the numeric value driven by `form.deskripsi.length`, allowing it to update immediately on every textarea change.
+- Verified the fix in Edge headless through the Chrome DevTools Protocol with real `input` events.
+- Browser assertions passed for `0 karakter`, `8 karakter`, `8 characters`, and `14 characters` after successive text and language changes.

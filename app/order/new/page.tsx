@@ -16,7 +16,7 @@ import {
   UploadCloud,
 } from 'lucide-react'
 import { servicesList, siteConfig } from '@/config/site'
-import { PreferencesControls } from '@/components/preferences'
+import { PreferencesControls, usePreferences } from '@/components/preferences'
 import { Notice } from '@/components/notice'
 
 type FormState = {
@@ -53,6 +53,7 @@ function safeMessage(error: unknown) {
 
 export default function NewOrderPage() {
   const router = useRouter()
+  const { language } = usePreferences()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [step, setStep] = useState(1)
   const [form, setForm] = useState<FormState>(initialState)
@@ -204,7 +205,7 @@ export default function NewOrderPage() {
                   <div><label className={labelClass} htmlFor="subject">Mata kuliah atau topik</label><input id="subject" className={inputClass} value={form.mataKuliah} onChange={(event) => updateField('mataKuliah', event.target.value)} placeholder="Contoh: Statistika" /></div>
                   <div><label className={labelClass} htmlFor="title">Judul tugas</label><input id="title" className={inputClass} value={form.judul} onChange={(event) => updateField('judul', event.target.value)} placeholder="Contoh: Uji regresi berganda" /></div>
                 </div>
-                <div><div className="flex items-center justify-between"><label className={labelClass} htmlFor="description">Deskripsi kebutuhan</label><span className="mb-2 text-xs font-bold text-[#819087]">{form.deskripsi.length} karakter</span></div><textarea id="description" rows={6} className={inputClass} value={form.deskripsi} onChange={(event) => updateField('deskripsi', event.target.value)} placeholder="Jelaskan output yang dibutuhkan, format, sumber data, dan catatan khusus lainnya." /><p className="mt-2 text-sm text-[#718078]">Minimal 20 karakter. Semakin jelas brief, semakin cepat admin melakukan review.</p></div>
+                <div><div className="flex items-center justify-between"><label className={labelClass} htmlFor="description">Deskripsi kebutuhan</label><span data-no-translate className="mb-2 text-xs font-bold text-[#819087]">{form.deskripsi.length} {language === 'en' ? 'characters' : 'karakter'}</span></div><textarea id="description" rows={6} className={inputClass} value={form.deskripsi} onChange={(event) => updateField('deskripsi', event.target.value)} placeholder="Jelaskan output yang dibutuhkan, format, sumber data, dan catatan khusus lainnya." /><p className="mt-2 text-sm text-[#718078]">Minimal 20 karakter. Semakin jelas brief, semakin cepat admin melakukan review.</p></div>
               </div>
             )}
 

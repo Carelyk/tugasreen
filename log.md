@@ -119,3 +119,5 @@
 - Replaced public order CTAs with links to the contact section.
 - Updated file-handling copy to state that submission instructions are provided after consultation.
 - Confirmed the existing PDF and attachment implementation uses the private Supabase Storage bucket `task-files`; Google Drive remains unconfigured.
+- Committed the account-free contact flow as `d09b073` and pushed it to `origin/main`.
+- Confirmed production returned HTTP 200 with the contact section, no public login link, `/login` redirecting to `/`, `/order/new` redirecting to `/#kontak`, and `/admin-login` remaining available for internal access.

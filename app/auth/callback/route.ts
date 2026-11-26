@@ -13,5 +13,5 @@ export async function GET(request: Request) {
     if (!error) return NextResponse.redirect(new URL(safeNext, url.origin))
   }
 
-  return NextResponse.redirect(new URL('/login?error=oauth', url.origin))
+  return NextResponse.redirect(new URL('/admin-login?error=oauth', url.origin))
 }

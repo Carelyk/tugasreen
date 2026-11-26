@@ -47,6 +47,8 @@ Use white text on Brand or Brand dark. Use Brand dark text on Accent. Accent is 
 - Do not use em dashes in user-facing copy. Prefer a period, comma, colon, or a shorter sentence.
 - Feedback panels should enter with a short fade and vertical motion, while respecting reduced-motion preferences.
 - Error and success feedback should use the shared `Notice` component for consistent icons, contrast, spacing, and accessibility announcements.
+- Public visitors do not create accounts. Primary calls to action lead to the contact section.
+- WhatsApp, Instagram, and X links must remain visibly unavailable until their real destinations are configured. Never ship placeholder contact destinations.
 
 ## Responsive behavior
 

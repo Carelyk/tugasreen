@@ -105,3 +105,17 @@
 - Optimized the final PNG files from 846 KB each to approximately 3 KB and 10 KB without changing the design.
 - Committed the favicon replacement as `3cb8d1b` and pushed it to `origin/main`.
 - Confirmed the production home page returned HTTP 200 with the new `/icon.png` and `/apple-icon.png` routes, and no longer referenced the old JPG icon metadata.
+
+## 2026-11-26: Public account removal
+
+- Removed the public `Masuk` link from the landing-page navigation.
+- Removed public footer links to order history and the admin panel.
+- Replaced `/login` with a redirect to the public home page, removing sign-in, create-account, and Google OAuth controls from public access.
+- Preserved administrator access through the unlisted `/admin-login` route with email and password only.
+- Updated the protected admin redirect and OAuth failure fallback to use `/admin-login`.
+- Redirected the legacy `/order/new` and `/orders` public routes to the contact section.
+- Added a public contact section with configurable WhatsApp, Instagram, and X destinations.
+- Removed the fake WhatsApp placeholder and made all unconfigured contact channels display a safe unavailable state.
+- Replaced public order CTAs with links to the contact section.
+- Updated file-handling copy to state that submission instructions are provided after consultation.
+- Confirmed the existing PDF and attachment implementation uses the private Supabase Storage bucket `task-files`; Google Drive remains unconfigured.

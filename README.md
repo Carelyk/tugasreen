@@ -1,18 +1,15 @@
 # tuGasREEN
 
-Platform pemesanan bantuan tugas terstruktur dengan alur brief, upload multi-file, pembuatan ZIP otomatis, budget, status pekerjaan, dan panel admin.
+Landing page layanan bantuan tugas dengan konsultasi langsung melalui kanal kontak dan panel internal admin.
 
 ## Fitur yang sudah tersedia
 
 - Landing page responsif dengan identitas visual tuGasREEN.
-- Registrasi dan login email/password melalui Supabase Auth.
-- Login Google dengan callback `/auth/callback`.
-- Form pesanan tiga langkah.
-- Upload 1–10 file dengan batas total 20 MB.
-- Validasi PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX, dan ZIP.
-- Penggabungan seluruh lampiran menjadi satu ZIP di server.
-- Penyimpanan paket ZIP privat di Supabase Storage.
-- Riwayat pesanan pengguna di `/orders`.
+- Alur publik tanpa registrasi atau login pengguna.
+- Section kontak untuk WhatsApp, Instagram, dan X dengan status aman ketika kanal belum dikonfigurasi.
+- Route publik lama `/login`, `/order/new`, dan `/orders` dialihkan ke beranda atau section kontak.
+- Kode legacy upload ZIP dan penyimpanan privat Supabase Storage tetap tersedia, tetapi tidak diekspos ke pengunjung.
+- Login internal admin di `/admin-login` menggunakan email/password Supabase.
 - Panel admin di `/admin` dengan unduh ZIP, status, harga final, dan catatan progres.
 - Keep-alive database harian dan pembersihan file pesanan lama.
 
@@ -38,6 +35,10 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ADMIN_EMAILS=admin@example.com
 CRON_SECRET=replace-with-a-long-random-secret
+NEXT_PUBLIC_WHATSAPP_NUMBER=628xxxxxxxxxx
+NEXT_PUBLIC_WHATSAPP_DISPLAY=08xx-xxxx-xxxx
+NEXT_PUBLIC_INSTAGRAM_URL=https://instagram.com/username
+NEXT_PUBLIC_X_URL=https://x.com/username
 ```
 
 `SUPABASE_SERVICE_ROLE_KEY` dan `CRON_SECRET` hanya boleh disimpan sebagai secret server. Jangan menggunakan awalan `NEXT_PUBLIC_` untuk keduanya.
@@ -57,19 +58,12 @@ Jalankan `supabase_upgrade_v2.sql` sekali. Upgrade ini:
 - memperbaiki policy profile, order, dan event;
 - mempertahankan akses penuh untuk role admin.
 
-Setelah akun admin mendaftar, tandai profilnya:
+Setelah akun admin dibuat di Supabase, tandai profilnya:
 
 ```sql
 update public.profiles
 set role = 'admin'
 where email = 'admin@example.com';
-```
-
-Untuk Google login, aktifkan Google provider di Supabase Authentication dan tambahkan URL berikut ke Redirect URLs:
-
-```text
-http://localhost:3000/auth/callback
-https://domain-produksi-anda/auth/callback
 ```
 
 ## Verifikasi
@@ -92,4 +86,4 @@ Tailwind CSS diproses melalui PostCSS pada dev dan build produksi. Build menggun
 
 ## Catatan Google Drive
 
-Struktur file sudah disiapkan sebagai satu ZIP per pesanan, sehingga integrasi Google Drive dapat ditambahkan sebagai tahap berikutnya. Integrasi tersebut belum diaktifkan karena membutuhkan keputusan akun tujuan dan kredensial OAuth/Service Account.
+Google Drive belum aktif. Implementasi saat ini masih memiliki kode legacy untuk menyimpan ZIP ke bucket privat Supabase Storage `task-files`, tetapi route upload publik sudah dialihkan ke section kontak. Integrasi Drive tanpa akun pengguna memerlukan Google Cloud service account, ID folder tujuan, pembagian akses folder kepada service account, serta proteksi upload publik seperti rate limit dan CAPTCHA.

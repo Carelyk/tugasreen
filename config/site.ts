@@ -1,11 +1,15 @@
+const whatsappNumber = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '').replace(/\D/g, '')
+
 export const siteConfig = {
   name: "tuGasREEN",
   tagline: "Brief rapi. Pengerjaan terarah.",
-  description: "Satu ruang untuk mengirim brief, merapikan file, menyepakati budget, dan memantau progres pengerjaan.",
+  description: "Satu tempat untuk memahami layanan, menyiapkan kebutuhan, dan terhubung langsung dengan admin tanpa membuat akun.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://tugasreen.vercel.app",
   adminEmails: (process.env.ADMIN_EMAILS || "admin@tugasreen.com,owner@tugasreen.com").split(",").map(e => e.trim()),
-  whatsappNumber: "+6281234567890", // Placeholder, ganti sesuai nomor WA admin
-  whatsappDisplay: "0812-3456-7890",
+  whatsappNumber,
+  whatsappDisplay: process.env.NEXT_PUBLIC_WHATSAPP_DISPLAY || "Nomor admin segera tersedia",
+  instagramUrl: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "",
+  xUrl: process.env.NEXT_PUBLIC_X_URL || "",
   emailAdmin: "support@tugasreen.com",
   storageMaxFileSizeMB: 20,
   maxFilesPerOrder: 10,
@@ -76,11 +80,11 @@ export const faqsList = [
   },
   {
     question: "Apakah data dan kerahasiaan tugas saya aman?",
-    answer: "Sangat aman. Dokumen instruksi dan hasil kerja Anda dienkripsi dan hanya dapat diakses oleh Anda dan tim admin terverifikasi. Kami menjamin 100% kerahasiaan akademik."
+    answer: "Admin akan memberi instruksi pengiriman file melalui kanal yang disepakati. Jangan mengirim kata sandi akun kampus, data pembayaran sensitif, atau informasi pribadi yang tidak diperlukan."
   },
   {
     question: "Bagaimana cara melakukan pembayaran?",
-    answer: "Setelah harga disepakati (status Menunggu Pembayaran/Diproses), admin akan memberikan instruksi pembayaran via transfer bank atau e-wallet melalui detail pesanan."
+    answer: "Setelah harga disepakati, admin akan memberikan instruksi pembayaran via transfer bank atau e-wallet melalui kanal kontak yang sama."
   },
   {
     question: "Apakah bisa mengajukan revisi jika ada yang kurang?",
@@ -88,7 +92,7 @@ export const faqsList = [
   },
   {
     question: "Bagaimana jika deadline tugas saya sangat mendesak (urgent)?",
-    answer: "Anda tetap dapat memasukkan deadline pada form pesanan. Sampaikan kebutuhan mendesak pada kolom deskripsi agar admin dapat memprioritaskan peninjauan."
+    answer: "Sampaikan deadline sejak pesan pertama agar admin dapat segera menilai kapasitas dan tingkat urgensinya."
   },
   {
     question: "Apakah tuGasREEN melayani joki ujian atau kuis real-time?",

@@ -57,7 +57,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Deadline harus berada setelah waktu sekarang.' }, { status: 400 })
     }
     if (files.length === 0 || files.length > siteConfig.maxFilesPerOrder) {
-      return NextResponse.json({ error: `Lampiran harus berisi 1–${siteConfig.maxFilesPerOrder} file.` }, { status: 400 })
+      return NextResponse.json({ error: `Lampiran harus berisi 1 sampai ${siteConfig.maxFilesPerOrder} file.` }, { status: 400 })
     }
 
     const totalBytes = files.reduce((total, file) => total + file.size, 0)
@@ -84,13 +84,13 @@ export async function POST(request: Request) {
       zip.file(name, await file.arrayBuffer())
     }
 
-    zip.file('README-TUGASREEN.txt', [
+    zip.file('README-tuGasREEN.txt', [
       `Pesanan: ${orderId}`,
       `Judul: ${judul}`,
       `Mata kuliah/topik: ${mataKuliah}`,
       `Jumlah file: ${files.length}`,
       '',
-      'Paket ini dibuat otomatis oleh TUGASREEN.',
+      'Paket ini dibuat otomatis oleh tuGasREEN.',
     ].join('\n'))
 
     const archive = await zip.generateAsync({

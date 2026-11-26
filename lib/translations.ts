@@ -1,4 +1,4 @@
-// Indonesian is the source language for the existing TUGASREEN copy.
+// Indonesian is the source language for the existing tuGasREEN copy.
 export const english: Record<string, string> = {
   'Brief rapi. Pengerjaan terarah.': 'Clear briefs. Focused work.',
   'Layanan': 'Services',
@@ -74,8 +74,8 @@ export const english: Record<string, string> = {
   'Di luar layanan': 'Outside our services',
   'PERTANYAAN UMUM': 'COMMON QUESTIONS',
   'Sebelum Anda mengirim brief.': 'Before you send your brief.',
-  'Bagaimana sistem penentuan harga di TUGASREEN?': 'How does TUGASREEN set prices?',
-  'Berbeda dari jasa lain yang kaku, di TUGASREEN Anda yang mengajukan estimasi harga/budget sesuai kemampuan. Admin kami akan mereview dan melakukan ACC atau Nego harga secara adil.': 'You propose a budget that works for you. Our admin reviews it and either approves it or offers a fair counterproposal.',
+  'Bagaimana sistem penentuan harga di tuGasREEN?': 'How does tuGasREEN set prices?',
+  'Berbeda dari jasa lain yang kaku, di tuGasREEN Anda yang mengajukan estimasi harga/budget sesuai kemampuan. Admin kami akan mereview dan melakukan ACC atau Nego harga secara adil.': 'You propose a budget that works for you. Our admin reviews it and either approves it or offers a fair counterproposal.',
   'Apakah data dan kerahasiaan tugas saya aman?': 'Are my files and assignment details private?',
   'Sangat aman. Dokumen instruksi dan hasil kerja Anda dienkripsi dan hanya dapat diakses oleh Anda dan tim admin terverifikasi. Kami menjamin 100% kerahasiaan akademik.': 'Your documents and work are encrypted and accessible only to you and verified admins. We keep your academic details private.',
   'Bagaimana cara melakukan pembayaran?': 'How do I pay?',
@@ -84,8 +84,8 @@ export const english: Record<string, string> = {
   'Tentu! Setiap pesanan mencakup garansi revisi sesuai kesepakatan detail tugas untuk memastikan hasil akhir memuaskan dan sesuai instruksi.': 'Yes. Revisions follow the scope agreed in your order to help ensure the result matches your instructions.',
   'Bagaimana jika deadline tugas saya sangat mendesak (urgent)?': 'What if my deadline is urgent?',
   'Anda tetap dapat memasukkan deadline pada form pesanan. Sampaikan kebutuhan mendesak pada kolom deskripsi agar admin dapat memprioritaskan peninjauan.': 'Enter your deadline in the order form and explain the urgency so the admin can prioritize the review.',
-  'Apakah TUGASREEN melayani joki ujian atau kuis real-time?': 'Does TUGASREEN take live exams or quizzes?',
-  'Tidak. Sesuai batasan layanan kami, TUGASREEN tidak melayani ujian/kuis real-time, joki ujian, atau tindakan plagiasi instan. Kami fokus membantu pengerjaan tugas terstruktur dan konsultasi akademik.': 'No. We focus on structured assignments and academic consultation, and do not take live exams or quizzes.',
+  'Apakah tuGasREEN melayani joki ujian atau kuis real-time?': 'Does tuGasREEN take live exams or quizzes?',
+  'Tidak. Sesuai batasan layanan kami, tuGasREEN tidak melayani ujian/kuis real-time, joki ujian, atau tindakan plagiasi instan. Kami fokus membantu pengerjaan tugas terstruktur dan konsultasi akademik.': 'No. We focus on structured assignments and academic consultation, and do not take live exams or quizzes.',
   'Masih ada pertanyaan khusus? Detail tambahan dapat ditulis langsung pada form pesanan.': 'Have a specific question? Add more details to the order form.',
   'SIAP MERAPIKAN PESANAN?': 'READY TO GET ORGANIZED?',
   'Mulai dari brief yang jelas.': 'Start with a clear brief.',

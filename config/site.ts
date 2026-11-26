@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "TUGASREEN",
+  name: "tuGasREEN",
   tagline: "Brief rapi. Pengerjaan terarah.",
   description: "Satu ruang untuk mengirim brief, merapikan file, menyepakati budget, dan memantau progres pengerjaan.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://tugasreen.vercel.app",
@@ -71,8 +71,8 @@ export const servicesList = [
 
 export const faqsList = [
   {
-    question: "Bagaimana sistem penentuan harga di TUGASREEN?",
-    answer: "Berbeda dari jasa lain yang kaku, di TUGASREEN Anda yang mengajukan estimasi harga/budget sesuai kemampuan. Admin kami akan mereview dan melakukan ACC atau Nego harga secara adil."
+    question: "Bagaimana sistem penentuan harga di tuGasREEN?",
+    answer: "Berbeda dari jasa lain yang kaku, di tuGasREEN Anda yang mengajukan estimasi harga/budget sesuai kemampuan. Admin kami akan mereview dan melakukan ACC atau Nego harga secara adil."
   },
   {
     question: "Apakah data dan kerahasiaan tugas saya aman?",
@@ -91,7 +91,7 @@ export const faqsList = [
     answer: "Anda tetap dapat memasukkan deadline pada form pesanan. Sampaikan kebutuhan mendesak pada kolom deskripsi agar admin dapat memprioritaskan peninjauan."
   },
   {
-    question: "Apakah TUGASREEN melayani joki ujian atau kuis real-time?",
-    answer: "Tidak. Sesuai batasan layanan kami, TUGASREEN tidak melayani ujian/kuis real-time, joki ujian, atau tindakan plagiasi instan. Kami fokus membantu pengerjaan tugas terstruktur dan konsultasi akademik."
+    question: "Apakah tuGasREEN melayani joki ujian atau kuis real-time?",
+    answer: "Tidak. Sesuai batasan layanan kami, tuGasREEN tidak melayani ujian/kuis real-time, joki ujian, atau tindakan plagiasi instan. Kami fokus membantu pengerjaan tugas terstruktur dan konsultasi akademik."
   }
 ];

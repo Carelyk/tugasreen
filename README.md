@@ -1,10 +1,10 @@
-# TUGASREEN
+# tuGasREEN
 
 Platform pemesanan bantuan tugas terstruktur dengan alur brief, upload multi-file, pembuatan ZIP otomatis, budget, status pekerjaan, dan panel admin.
 
 ## Fitur yang sudah tersedia
 
-- Landing page responsif dengan identitas visual TUGASREEN.
+- Landing page responsif dengan identitas visual tuGasREEN.
 - Registrasi dan login email/password melalui Supabase Auth.
 - Login Google dengan callback `/auth/callback`.
 - Form pesanan tiga langkah.
@@ -48,7 +48,7 @@ CRON_SECRET=replace-with-a-long-random-secret
 
 Jalankan seluruh isi `supabase_migration.sql` melalui Supabase SQL Editor.
 
-### Proyek lama TUGASREEN
+### Proyek lama tuGasREEN
 
 Jalankan `supabase_upgrade_v2.sql` sekali. Upgrade ini:
 

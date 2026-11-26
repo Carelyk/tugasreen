@@ -1,5 +1,5 @@
 -- =========================================================================
--- TUGASREEN Supabase Database Schema & RLS Security Migration
+-- tuGasREEN Supabase Database Schema & RLS Security Migration
 -- Run this in your Supabase SQL Editor
 -- =========================================================================
 

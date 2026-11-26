@@ -2,36 +2,36 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #f6f8f3;
-  --foreground: #10231b;
+  --background: #f7faf4;
+  --foreground: #10271e;
   --surface: #ffffff;
-  --ink-muted: #5c6f66;
-  --brand: #0b6b4f;
-  --brand-dark: #073f31;
-  --accent: #c9f24b;
+  --ink-muted: #587066;
+  --brand: #007a53;
+  --brand-dark: #004b34;
+  --accent: #c8ff2f;
 }
 
 .dark {
-  --background: #071d17;
+  --background: #061e16;
   --foreground: #e8f5ec;
   --surface: #102a20;
   --ink-muted: #abc7b7;
-  --brand: #34b487;
-  --brand-dark: #05261d;
-  --accent: #a8e861;
+  --brand: #39c693;
+  --brand-dark: #003e2b;
+  --accent: #c8ff2f;
   color-scheme: dark;
 }
 
-.dark [class*="bg-[#f6f8f3]"], .dark [class*="bg-[#f3f6f1]"], .dark [class*="bg-[#f8faf6]"] { background-color: var(--background); }
+.dark [class*="bg-[#f7faf4]"], .dark [class*="bg-[#f7faf4]"], .dark [class*="bg-[#f8faf6]"] { background-color: var(--background); }
 .dark [class*="bg-white"], .dark [class*="bg-[#f1f6ef]"], .dark [class*="bg-[#f2f6f1]"] { background-color: var(--surface); }
-.dark [class*="text-[#10231b]"], .dark [class*="text-[#17382d]"]:not([class*="bg-[#c9f24b]"]), .dark [class*="text-[#073f31]"]:not([class*="bg-[#c9f24b]"]) { color: var(--foreground); }
+.dark [class*="text-[#10271e]"], .dark [class*="text-[#17382d]"]:not([class*="bg-[#c8ff2f]"]), .dark [class*="text-[#004b34]"]:not([class*="bg-[#c8ff2f]"]) { color: var(--foreground); }
 .dark [class*="text-[#5c6f66]"], .dark [class*="text-[#53675d]"], .dark [class*="text-[#60736a]"], .dark [class*="text-[#61746a]"], .dark [class*="text-[#63766c]"] { color: var(--ink-muted); }
 .dark input, .dark textarea, .dark select { background-color: var(--surface); color: var(--foreground); border-color: #3c6551; }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Inter Variable", "Segoe UI", Arial, Helvetica, sans-serif;
+  --font-sans: "Plus Jakarta Sans Variable", "Segoe UI", Arial, Helvetica, sans-serif;
   --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
 }
 
@@ -46,10 +46,10 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Inter Variable", "Segoe UI", Arial, Helvetica, sans-serif;
+  font-family: "Plus Jakarta Sans Variable", "Segoe UI", Arial, Helvetica, sans-serif;
   min-width: 320px;
   font-optical-sizing: auto;
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  font-feature-settings: "ss01", "ss02";
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
@@ -76,6 +76,54 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+:where(button, a, input, select, textarea, summary) {
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+  transition-duration: 180ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ui-pop {
+  transform-origin: top center;
+  animation: ui-pop-in 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.step-panel {
+  animation: step-panel-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+details[open] {
+  border-color: color-mix(in srgb, var(--brand) 28%, transparent);
+}
+
+details[open] > :not(summary) {
+  animation: details-reveal 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes ui-pop-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes step-panel-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes details-reveal {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 ::selection {
   background: var(--accent);
   color: var(--brand-dark);
@@ -83,13 +131,13 @@ a {
 
 .noise-grid {
   background-image:
-    linear-gradient(rgba(11, 107, 79, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(11, 107, 79, 0.055) 1px, transparent 1px);
+    linear-gradient(rgba(0, 122, 83, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 122, 83, 0.055) 1px, transparent 1px);
   background-size: 38px 38px;
 }
 
 .soft-shadow {
-  box-shadow: 0 24px 70px rgba(7, 63, 49, 0.12);
+  box-shadow: 0 24px 70px rgba(0, 75, 52, 0.13);
 }
 
 .balance {

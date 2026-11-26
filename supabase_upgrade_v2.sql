@@ -1,4 +1,4 @@
--- TUGASREEN v2 upgrade for an existing Supabase project.
+-- tuGasREEN v2 upgrade for an existing Supabase project.
 -- Run once in Supabase SQL Editor before testing the new upload flow.
 
 create or replace function public.is_admin()
